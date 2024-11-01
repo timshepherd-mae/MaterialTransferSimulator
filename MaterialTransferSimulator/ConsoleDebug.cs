@@ -11,12 +11,21 @@ namespace MaterialTransferSimulator
         public static void Main()
         {
             Console.WriteLine("ok");
+
+            // create a simulation instance
+            Simulation sim = new Simulation()
+            {
+                dateStart = new DateTime(2024, 10, 1),
+                dateEnd = new DateTime(2024,10,10)
+            };
+
             Container c = new Container()
             {
                 name = "spoil",
                 currentVolume = 0,
                 capacity = 2500
             };
+            sim.Add(c);
 
             Console.WriteLine(c.ToString());
 
@@ -26,6 +35,7 @@ namespace MaterialTransferSimulator
                 currentVolume = 1000,
                 capacity = 1000
             };
+            sim.Add(d);
 
             Console.WriteLine(d.ToString());
 
@@ -35,15 +45,10 @@ namespace MaterialTransferSimulator
                 linkTo = c,
                 load = 50
             };
+            sim.Add(t);
 
             t.SetName();
             Console.WriteLine(t.ToString());
-
-            Simulation sim = new Simulation()
-            {
-                dateStart = new DateTime(2024, 10, 1),
-                dateEnd = new DateTime(2024,10,10)
-            };
 
             Result res = sim.Run();
 

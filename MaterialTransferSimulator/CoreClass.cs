@@ -19,6 +19,15 @@ namespace MaterialTransferSimulator
         public List<Container> containers = new List<Container>();
         public List<Transfer> transfers = new List<Transfer>();
 
+        public void Add(Container c) // overloaded add container
+        {
+            containers.Add(c);
+        }
+        public void Add(Transfer t) // overloaded add transfer
+        {
+            transfers.Add(t);
+        }
+
         public Result Run()
         {
             // initialise result and log
@@ -43,7 +52,7 @@ namespace MaterialTransferSimulator
                     logEntry.Add(c.currentVolume);
                 }
 
-                Console.WriteLine(logEntry.ToString());
+                // Console.WriteLine(logEntry.ToString());
 
                 // update the result
                 result.Add(logEntry);
