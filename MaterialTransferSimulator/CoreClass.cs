@@ -34,25 +34,27 @@ namespace MaterialTransferSimulator
             Result result = new Result();
             result.entries = new List<LogEntry>();
 
-            LogEntry logEntry = new LogEntry();
-            logEntry.volumes = new List<double>();
+            //LogEntry logEntry = new LogEntry();
+            //logEntry.volumes = new List<double>();
 
             DateTime currentDate = dateStart;
+            double tempVol = 0;
+            
 
             // cycle through simulation period
             while (currentDate <= dateEnd)
             {
-                // clear the log and set date
-                logEntry.Clear();
+                // initialise new log entry
+                LogEntry logEntry = new LogEntry();
                 logEntry.SetDate(currentDate);
+                logEntry.volumes = new List<double>();
 
                 // collect current state of containers
                 foreach (Container c in containers)
                 {
-                    logEntry.Add(c.currentVolume);
+                    tempVol = c.currentVolume;
+                    logEntry.Add(tempVol);
                 }
-
-                // Console.WriteLine(logEntry.ToString());
 
                 // update the result
                 result.Add(logEntry);
@@ -62,10 +64,11 @@ namespace MaterialTransferSimulator
                 {
                     // check transfer is valid
                     // (is active at current date and has links From/To)
+
                     if (t.dateStart <= currentDate & t.linkFrom != null & t.linkTo != null)
                     {
-                        t.linkFrom.currentVolume -= t.load;
-                        t.linkTo.currentVolume -= t.load;
+                        t.linkFrom.currentVolume -= t.loadActuals[0];
+                        t.linkTo.currentVolume += t.loadActuals[2];
                     }
                 }
 
@@ -84,7 +87,7 @@ namespace MaterialTransferSimulator
         public int id;
         public string name = string.Empty;
         public double currentVolume = 0;
-        public double capacity = 1000;
+        public double capacity = 0;
         public double bulkOnImport = 1;
         public double bulkOnExport = 1;
 
@@ -95,7 +98,7 @@ namespace MaterialTransferSimulator
 
         public override string ToString()
         {
-            return $"{id}:{name} - {currentVolume}";
+            return $"{id}: {name}\t{currentVolume}/{capacity}";
         }
     }
 
@@ -105,7 +108,8 @@ namespace MaterialTransferSimulator
 
         public int id;
         public string name = string.Empty;
-        public double load = 0;
+        public double loadPlanned = 0;
+        public double[] loadActuals = new double[3];
         public Container linkFrom = null;
         public Container linkTo = null;
         public LoadBias loadBias = LoadBias.Transfer;
@@ -120,12 +124,51 @@ namespace MaterialTransferSimulator
         {
             string nameFrom = (linkFrom == null) ? "UnDef" : linkFrom.name;
             string nameTo = (linkTo == null) ? "UnDef" : linkTo.name;
-            name = $"{nameFrom}-->{nameTo}";
+            string loads = "(";
+            loads += $"{loadActuals[0]:F0}";
+            loads += (loadBias == LoadBias.Source) ? "*/" : "/";
+            loads += $"{loadActuals[1]:F0}";
+            loads += (loadBias == LoadBias.Transfer) ? "*/" : "/";
+            loads += $"{loadActuals[2]:F0}";
+            loads += (loadBias == LoadBias.Target) ? "*)" : ")";
+
+            name = $"{nameFrom} --> {loads} --> {nameTo}";
+        }
+
+        public void SetLoadActuals()
+        {
+            // check for both container connections
+            if (linkFrom != null & linkTo != null)
+            {
+                switch (loadBias)
+                {
+                    case (LoadBias.Source):
+
+                        loadActuals[0] = loadPlanned;
+                        loadActuals[1] = loadPlanned * linkFrom.bulkOnExport;
+                        loadActuals[2] = loadPlanned * linkFrom.bulkOnExport * linkTo.bulkOnImport;
+                        break;
+
+                    case (LoadBias.Transfer):
+
+                        loadActuals[0] = loadPlanned / linkFrom.bulkOnExport;
+                        loadActuals[1] = loadPlanned;
+                        loadActuals[2] = loadPlanned * linkTo.bulkOnImport;
+                        break;
+
+                    case (LoadBias.Target):
+
+                        loadActuals[0] = loadPlanned / (linkFrom.bulkOnExport * linkTo.bulkOnImport);
+                        loadActuals[1] = loadPlanned / linkTo.bulkOnImport;
+                        loadActuals[2] = loadPlanned;
+                        break;
+                }
+            }
         }
 
         public override string ToString()
         {
-            return $"{id}:{name} - {load}";
+            return $"{id}: {name}";
         }
     }
 
@@ -155,7 +198,7 @@ namespace MaterialTransferSimulator
             string output = date.ToString("yyyy-MM-dd");
             foreach (double v in volumes)
             {
-                output += "\t0" + v.ToString();
+                output += "\t" + v.ToString("0");
             }
 
             return output;
@@ -178,4 +221,5 @@ namespace MaterialTransferSimulator
         Transfer = 1,
         Target = 2
     }
+
 }
