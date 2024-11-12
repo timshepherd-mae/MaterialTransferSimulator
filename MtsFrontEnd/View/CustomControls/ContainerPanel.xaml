@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="MtsFrontEnd.View.CustomControls.ContainerPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MtsFrontEnd.View.CustomControls"
+             mc:Ignorable="d" 
+             Height="40" Width="100">
+    <Border BorderBrush="#FF000000" CornerRadius="2,2,2,2" BorderThickness="0.5,0.5,0.5,0.5" Background="#FFDADADA">    
+    <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Text="EXCAVATION 01" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="1" Text="2500 / 18000" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        </Grid>
+    </Border>
+</UserControl>

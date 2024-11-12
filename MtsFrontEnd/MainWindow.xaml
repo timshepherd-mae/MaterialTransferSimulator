@@ -4,9 +4,50 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MtsFrontEnd"
+        xmlns:userControls="clr-namespace:MtsFrontEnd.View.CustomControls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="Material Transfer Simulator" Width="800" VerticalAlignment="Top" HorizontalAlignment="Left" Height="450" ResizeMode="NoResize">
+
+    <StackPanel VerticalAlignment="Top">
+
+
+        <!-- Main Window -->
+        <Grid>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="materialLocations" Width="570"/>
+                <ColumnDefinition x:Name="materialInformation" Width="230"/>
+            </Grid.ColumnDefinitions>
+
+            <Canvas Grid.Column="0" x:Name="flowRegion" Height="409"/>
+<!--
+            <Button Grid.Column="0" x:Name="bayA" Width="80" Height="40" Margin="50,50,0,0" HorizontalAlignment="Left" Content="A" VerticalAlignment="Top" />
+            <Button Grid.Column="0" x:Name="bayC" Width="80" Height="40" Margin="310,50,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="C" />
+-->
+            <userControls:ContainerPanel Grid.Column="0" Margin="40,50,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <userControls:ContainerPanel Grid.Column="0" Margin="300,50,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+            <Button Grid.Column="0" x:Name="bayB" Width="80" Height="40" Margin="180,140,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="B" />
+            <Button Grid.Column="0" x:Name="bayD" Width="80" Height="40" Margin="440,140,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="D" />
+
+            <Button Grid.Column="0" x:Name="bayE" Width="80" Height="40" Margin="50,230,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="E" />
+            <Button Grid.Column="0" x:Name="bayG" Width="80" Height="40" Margin="310,230,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="G" />
+
+            <Button Grid.Column="0" x:Name="bayF" Width="80" Height="40" Margin="180,320,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="F" />
+            <Button Grid.Column="0" x:Name="bayH" Width="80" Height="40" Margin="440,320,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="H" />
+
+            <WrapPanel Grid.Column="1" HorizontalAlignment="Center" Height="156" Width="230" VerticalAlignment="Top" Background="#FFEAEAEA">
+                <Label Width="60" Margin="10,0,10,0" Content="label1" Height="26"/>
+                <TextBox Width="100" HorizontalAlignment="Left" VerticalAlignment="Center" Height="20"  />
+                <Label Width="60" Margin="10,0,10,0" Content="label2" HorizontalAlignment="Left" VerticalAlignment="Center" Height="26"/>
+                <TextBox Width="100" HorizontalAlignment="Left" VerticalAlignment="Center" Height="20"/>
+            </WrapPanel>
+
+
+
+
+        </Grid>
+
+    </StackPanel>
+
 </Window>

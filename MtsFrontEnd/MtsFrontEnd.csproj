@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{73F98B4B-8B1F-4AB8-AF90-D288360BB0C6}</ProjectGuid>
+    <ProjectGuid>{F87FDCC1-AD4F-41CA-B4A5-EBD8EC8B2E75}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>MtsFrontEnd</RootNamespace>
     <AssemblyName>MtsFrontEnd</AssemblyName>
@@ -35,9 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MaterialTransferSimulator">
-      <HintPath>..\MaterialTransferSimulator\bin\Release\MaterialTransferSimulator.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -58,6 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MtsFrontEndDraw.cs" />
+    <Compile Include="View\CustomControls\ContainerPanel.xaml.cs">
+      <DependentUpon>ContainerPanel.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -70,6 +71,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\CustomControls\ContainerPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
